@@ -34,23 +34,23 @@ public class LineDraw : MonoBehaviour
         switch (randomInt)
         {
             case 4:
-                material.SetFloat("width", 0.5f);
-                material.SetFloat("heigth", 0.1f);
+                material.SetFloat("width", 5);
+                material.SetFloat("heigth", 2);
                 randomColor = Color.yellow;
                 break;
             case 3:
-                material.SetFloat("width", 0.5f);
-                material.SetFloat("heigth", 1f);
+                material.SetFloat("width", 5);
+                material.SetFloat("heigth", 2);
                 randomColor = Color.cyan;
                 break;
             case 2:
-                material.SetFloat("width", 0.75f);
-                material.SetFloat("heigth", 0.1f);
+                material.SetFloat("width", 5);
+                material.SetFloat("heigth", 2);
                 randomColor = Color.green;
                 break;
             case 1:
-                material.SetFloat("width", 0.4f);
-                material.SetFloat("heigth", 0.8f);
+                material.SetFloat("width", 5);
+                material.SetFloat("heigth", 2);
                 randomColor = Color.red;
                 break;
         }

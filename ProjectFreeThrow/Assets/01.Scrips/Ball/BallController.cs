@@ -8,9 +8,10 @@ public class BallController : MonoBehaviour
     private Vector2 endInputPosition;
     private Vector2 direction;
 
+    LineDraw lineDraw;
+
     private Rigidbody2D rb2D;
     public PhysicsMaterial2D PhysicsMaterial2D;
-    private LineRenderer lineRenderer;
 
     public float forceMultiplier = 10f;
     private bool isOnGround;
@@ -18,15 +19,7 @@ public class BallController : MonoBehaviour
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-        lineRenderer = GetComponent<LineRenderer>();
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-        lineRenderer.positionCount = 2;
-        lineRenderer.enabled = false;
+        lineDraw = GetComponent<LineDraw>();
     }
 
     void Update()
@@ -40,19 +33,16 @@ public class BallController : MonoBehaviour
             {
                 case TouchPhase.Began:
                     startInputPosition = touch.position;
-                    lineRenderer.enabled = true;
                     break;
 
                 case TouchPhase.Moved:
                     endInputPosition = touch.position;
-                    UpdateLineRenderer();
                     break;
 
                 case TouchPhase.Ended:
                     endInputPosition = touch.position;
                     direction = (endInputPosition - startInputPosition) / Screen.dpi;
                     rb2D.velocity = direction * forceMultiplier;
-                    lineRenderer.enabled = false;
                     break;
             }
         }
@@ -61,13 +51,14 @@ public class BallController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             startInputPosition = Input.mousePosition;
-            lineRenderer.enabled = true;
+            lineDraw.DrawLine();
         }
 
         if (Input.GetMouseButton(0))
         {
             endInputPosition = Input.mousePosition;
-            UpdateLineRenderer();
+            lineDraw.FreeDraw();
+
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -75,18 +66,8 @@ public class BallController : MonoBehaviour
             endInputPosition = Input.mousePosition;
             direction = (endInputPosition - startInputPosition) / Screen.dpi;
             rb2D.velocity = direction * forceMultiplier;
-            lineRenderer.enabled = false;
+            lineDraw.ClearLine();
         }
-    }
-
-    void UpdateLineRenderer()
-    {
-        Vector3 ballPosition = transform.position;
-        Vector2 inputDirection = (endInputPosition - startInputPosition) / Screen.dpi;
-        Vector3 targetPosition = ballPosition + new Vector3(inputDirection.x, inputDirection.y, 0) * forceMultiplier;
-
-        lineRenderer.SetPosition(0, ballPosition);
-        lineRenderer.SetPosition(1, targetPosition);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

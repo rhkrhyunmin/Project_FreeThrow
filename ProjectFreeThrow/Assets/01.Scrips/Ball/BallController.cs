@@ -41,7 +41,7 @@ public class BallController : MonoBehaviour
 
                 case TouchPhase.Ended:
                     endInputPosition = touch.position;
-                    direction = (endInputPosition - startInputPosition) / Screen.dpi;
+                    direction = (startInputPosition - endInputPosition) / Screen.dpi;
                     rb2D.velocity = direction * forceMultiplier;
                     break;
             }
@@ -58,13 +58,12 @@ public class BallController : MonoBehaviour
         {
             endInputPosition = Input.mousePosition;
             lineDraw.FreeDraw();
-
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             endInputPosition = Input.mousePosition;
-            direction = (endInputPosition - startInputPosition) / Screen.dpi;
+            direction = (startInputPosition - endInputPosition) / Screen.dpi;
             rb2D.velocity = direction * forceMultiplier;
             lineDraw.ClearLine();
         }
